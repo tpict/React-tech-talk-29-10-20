@@ -8,13 +8,18 @@ interface CookieProps {
 }
 
 const Cookie = function (props: CookieProps): React.ReactElement {
-  const alt =
-    props.variant === "chocChip"
-      ? "Chocolate chip cookie"
-      : "Double chocolate chip cookie";
+  let alt, src: string;
 
-  const src =
-    props.variant === "chocChip" ? chocChipImage : doubleChocChipImage;
+  switch (props.variant) {
+    case "chocChip":
+      alt = "Chocolate chip cookie";
+      src = chocChipImage;
+      break;
+    case "doubleChocChip":
+      alt = "Double chocolate chip cookie";
+      src = doubleChocChipImage;
+      break;
+  }
 
   return <img alt={alt} src={src} />;
 };
