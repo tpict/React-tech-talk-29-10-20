@@ -30,6 +30,7 @@ const CookieContainer = function (props) {
 
 export const App = function () {
   const [cookieCount, setCookieCount] = useState(0);
+  const [bakerCount, setBakerCount] = useState(0);
   const [isFactoryRunning, setFactoryRunning] = useState(false);
 
   function startFactory() {
@@ -44,6 +45,8 @@ export const App = function () {
     <CookieContainer>
       <div className="cookie-count">You have {cookieCount} cookies</div>
 
+      <div className="cookie-count">You have {bakerCount} bakers</div>
+
       <div className="cookie-count">
         The factory is {isFactoryRunning ? "" : "not "} running
       </div>
@@ -55,6 +58,10 @@ export const App = function () {
 
         <button onClick={startFactory} disabled={isFactoryRunning}>
           Start factory
+        </button>
+
+        <button onClick={() => setBakerCount(bakerCount + 1)}>
+          Hire baker
         </button>
       </div>
     </CookieContainer>
