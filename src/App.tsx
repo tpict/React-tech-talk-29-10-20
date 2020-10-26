@@ -57,6 +57,17 @@ const CookieControls = function (props) {
   );
 };
 
+function useCookieBakers(bakerCount, setCookieCount) {
+  useEffect(() => {
+    const interval = setInterval(
+      () => setCookieCount(cookieCount => cookieCount + bakerCount),
+      1000,
+    );
+
+    return () => clearInterval(interval);
+  }, [bakerCount]);
+}
+
 export const App = function () {
   const [cookieCount, setCookieCount] = useState(0);
   const [bakerCount, setBakerCount] = useState(0);
@@ -70,14 +81,7 @@ export const App = function () {
     }, 3000);
   }
 
-  useEffect(() => {
-    const interval = setInterval(
-      () => setCookieCount(cookieCount => cookieCount + bakerCount),
-      1000,
-    );
-
-    return () => clearInterval(interval);
-  }, [bakerCount]);
+  useCookieBakers(bakerCount, setCookieCount);
 
   return (
     <CookieContainer>
