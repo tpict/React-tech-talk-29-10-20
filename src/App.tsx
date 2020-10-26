@@ -37,7 +37,13 @@ const CookieContainer: React.FC = function (props) {
   );
 };
 
-const CookieInformation = function (props) {
+interface CookieInformationProps {
+  cookieCount: number;
+  bakerCount: number;
+  isFactoryRunning: boolean;
+}
+
+const CookieInformation: React.FC<CookieInformationProps> = function (props) {
   return (
     <div className="cookie-count">
       <div>You have {props.cookieCount} cookies</div>
@@ -49,7 +55,14 @@ const CookieInformation = function (props) {
   );
 };
 
-const CookieControls = function (props) {
+interface CookieControls {
+  handleCookieClick: () => void;
+  handleFactoryClick: () => void;
+  handleBakerClick: () => void;
+  isFactoryRunning: boolean;
+}
+
+const CookieControls: React.FC<CookieControls> = function (props) {
   return (
     <div className="cookie-controls">
       <button onClick={props.handleCookieClick}>Bake cookie</button>
@@ -77,7 +90,7 @@ function useCookieBakers(bakerCount, setCookieCount) {
   }, [bakerCount]);
 }
 
-export const App = function () {
+export const App: React.FC = function () {
   const [cookieCount, setCookieCount] = useState(0);
   const [bakerCount, setBakerCount] = useState(0);
   const [isFactoryRunning, setFactoryRunning] = useState(false);
