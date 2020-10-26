@@ -28,6 +28,35 @@ const CookieContainer = function (props) {
   );
 };
 
+const CookieInformation = function (props) {
+  return (
+    <div className="cookie-count">
+      <div>You have {props.cookieCount} cookies</div>
+
+      <div>You have {props.bakerCount} bakers</div>
+
+      <div>The factory is {props.isFactoryRunning ? "" : "not "} running</div>
+    </div>
+  );
+};
+
+const CookieControls = function (props) {
+  return (
+    <div className="cookie-controls">
+      <button onClick={props.handleCookieClick}>Bake cookie</button>
+
+      <button
+        onClick={props.handleFactoryClick}
+        disabled={props.isFactoryRunning}
+      >
+        Start factory
+      </button>
+
+      <button onClick={props.handleBakerClick}>Hire baker</button>
+    </div>
+  );
+};
+
 export const App = function () {
   const [cookieCount, setCookieCount] = useState(0);
   const [bakerCount, setBakerCount] = useState(0);
@@ -52,27 +81,18 @@ export const App = function () {
 
   return (
     <CookieContainer>
-      <div className="cookie-count">You have {cookieCount} cookies</div>
+      <CookieInformation
+        cookieCount={cookieCount}
+        bakerCount={bakerCount}
+        isFactoryRunning={isFactoryRunning}
+      />
 
-      <div className="cookie-count">You have {bakerCount} bakers</div>
-
-      <div className="cookie-count">
-        The factory is {isFactoryRunning ? "" : "not "} running
-      </div>
-
-      <div className="cookie-controls">
-        <button onClick={() => setCookieCount(cookieCount + 1)}>
-          Bake cookie
-        </button>
-
-        <button onClick={startFactory} disabled={isFactoryRunning}>
-          Start factory
-        </button>
-
-        <button onClick={() => setBakerCount(bakerCount + 1)}>
-          Hire baker
-        </button>
-      </div>
+      <CookieControls
+        handleCookieClick={() => setCookieCount(cookieCount => cookieCount + 1)}
+        handleFactoryClick={startFactory}
+        handleBakerClick={() => setBakerCount(bakerCount => bakerCount + 1)}
+        isFactoryRunning={isFactoryRunning}
+      />
     </CookieContainer>
   );
 };
