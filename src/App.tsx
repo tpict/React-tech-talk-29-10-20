@@ -18,12 +18,16 @@ export const Cookie = function (props) {
   });
 };
 
-export const App = function () {
+const CookieContainer = function (props) {
   return React.createElement("div", { className: "App" }, [
     React.createElement("div", { className: "cookie-decor" }, [
       React.createElement(Cookie, { variant: "chocChip" }),
       React.createElement(Cookie, { variant: "doubleChocChip" }),
     ]),
-    "Hello world",
+    props.children,
   ]);
+};
+
+export const App = function () {
+  return React.createElement(CookieContainer, undefined, ["Hello world"]);
 };
