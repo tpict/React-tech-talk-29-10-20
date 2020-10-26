@@ -1,0 +1,18 @@
+import React, { useState } from "react";
+import "./App.css";
+
+export const App = function () {
+  const [cookieCount, setCookieCount] = useState(0);
+
+  return (
+    <div className="App">
+      <div className="cookie-count">You have {cookieCount} cookies</div>
+
+      <div className="cookie-controls">
+        <button onClick={() => setCookieCount(cookieCount + 1)}>
+          Bake cookie
+        </button>
+      </div>
+    </div>
+  );
+};
