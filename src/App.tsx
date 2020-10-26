@@ -42,10 +42,12 @@ export const App = function () {
   }
 
   useEffect(() => {
-    setInterval(
+    const interval = setInterval(
       () => setCookieCount(cookieCount => cookieCount + bakerCount),
       1000,
     );
+
+    return () => clearInterval(interval);
   }, [bakerCount]);
 
   return (
