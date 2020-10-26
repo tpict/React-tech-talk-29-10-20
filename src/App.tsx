@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import chocChipImage from "./chocChip.png";
 import doubleChocChipImage from "./doubleChocChip.png";
@@ -40,6 +40,13 @@ export const App = function () {
       setFactoryRunning(false);
     }, 3000);
   }
+
+  useEffect(() => {
+    setInterval(
+      () => setCookieCount(cookieCount => cookieCount + bakerCount),
+      1000,
+    );
+  }, []);
 
   return (
     <CookieContainer>
