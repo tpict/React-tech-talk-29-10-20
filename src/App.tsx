@@ -3,7 +3,11 @@ import React, { useEffect, useState } from "react";
 import chocChipImage from "./chocChip.png";
 import doubleChocChipImage from "./doubleChocChip.png";
 
-const Cookie = function (props) {
+interface CookieProps {
+  variant: "chocChip" | "doubleChocChip";
+}
+
+const Cookie = function (props: CookieProps): React.ReactElement {
   const alt =
     props.variant === "chocChip"
       ? "Chocolate chip cookie"
@@ -15,7 +19,11 @@ const Cookie = function (props) {
   return <img alt={alt} src={src} />;
 };
 
-const CookieContainer = function (props) {
+interface CookieContainer {
+  children: React.ReactNode;
+}
+
+const CookieContainer = function (props: CookieContainer): React.ReactElement {
   return (
     <div className="App">
       <div className="cookie-decor">
