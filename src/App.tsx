@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer } from "react";
 
 import chocChipImage from "./chocChip.png";
 import doubleChocChipImage from "./doubleChocChip.png";
@@ -37,11 +37,7 @@ const CookieContainer: React.FC = function (props) {
   );
 };
 
-interface CookieInformationProps {
-  cookieCount: number;
-  bakerCount: number;
-  isFactoryRunning: boolean;
-}
+type CookieInformationProps = State;
 
 const CookieInformation: React.FC<CookieInformationProps> = function (props) {
   return (
@@ -56,71 +52,91 @@ const CookieInformation: React.FC<CookieInformationProps> = function (props) {
 };
 
 interface CookieControls {
-  handleCookieClick: () => void;
-  handleFactoryClick: () => void;
-  handleBakerClick: () => void;
+  dispatch: React.Dispatch<Actions>;
   isFactoryRunning: boolean;
 }
 
 const CookieControls: React.FC<CookieControls> = function (props) {
   return (
     <div className="cookie-controls">
-      <button onClick={props.handleCookieClick}>Bake cookie</button>
+      <button onClick={() => props.dispatch("addCookie")}>Bake cookie</button>
 
       <button
-        onClick={props.handleFactoryClick}
+        onClick={() => props.dispatch("startFactory")}
         disabled={props.isFactoryRunning}
       >
         Start factory
       </button>
 
-      <button onClick={props.handleBakerClick}>Hire baker</button>
+      <button onClick={() => props.dispatch("addBaker")}>Hire baker</button>
     </div>
   );
 };
 
+interface State {
+  cookieCount: number;
+  bakerCount: number;
+  isFactoryRunning: boolean;
+}
+
+type Actions =
+  | "addCookie"
+  | "addBaker"
+  | "startFactory"
+  | "stopFactory"
+  | "bakersBaked";
+
+function reducer(state: State, action: Actions): State {
+  switch (action) {
+    case "addCookie":
+      return { ...state, cookieCount: state.cookieCount + 1 };
+    case "addBaker":
+      return { ...state, bakerCount: state.bakerCount + 1 };
+    case "startFactory":
+      return { ...state, isFactoryRunning: true };
+    case "stopFactory":
+      return {
+        ...state,
+        isFactoryRunning: false,
+        cookieCount: state.cookieCount + 100,
+      };
+    case "bakersBaked":
+      return { ...state, cookieCount: state.cookieCount + state.bakerCount };
+  }
+}
+
 function useCookieBakers(
   bakerCount: number,
-  setCookieCount: React.Dispatch<React.SetStateAction<number>>,
+  dispatch: React.Dispatch<Actions>,
 ): void {
   useEffect(() => {
-    const interval = setInterval(
-      () => setCookieCount(cookieCount => cookieCount + bakerCount),
-      1000,
-    );
-
+    const interval = setInterval(() => dispatch("bakersBaked"), 1000);
     return () => clearInterval(interval);
   }, [bakerCount]);
 }
 
 export const App: React.FC = function () {
-  const [cookieCount, setCookieCount] = useState(0);
-  const [bakerCount, setBakerCount] = useState(0);
-  const [isFactoryRunning, setFactoryRunning] = useState(false);
+  const [state, dispatch] = useReducer(reducer, {
+    cookieCount: 0,
+    bakerCount: 0,
+    isFactoryRunning: false,
+  });
 
-  function startFactory(): void {
-    setFactoryRunning(true);
-    setTimeout(() => {
-      setCookieCount(cookieCount => cookieCount + 100);
-      setFactoryRunning(false);
-    }, 3000);
-  }
+  useEffect(() => {
+    if (state.isFactoryRunning) {
+      setTimeout(() => dispatch("stopFactory"), 3000);
+    }
+  }, [state.isFactoryRunning]);
 
-  useCookieBakers(bakerCount, setCookieCount);
+  useCookieBakers(state.bakerCount, dispatch);
 
   return (
     <CookieContainer>
-      <CookieInformation
-        cookieCount={cookieCount}
-        bakerCount={bakerCount}
-        isFactoryRunning={isFactoryRunning}
-      />
+      <CookieInformation {...state} />
 
       <CookieControls
-        handleCookieClick={() => setCookieCount(cookieCount => cookieCount + 1)}
-        handleFactoryClick={startFactory}
-        handleBakerClick={() => setBakerCount(bakerCount => bakerCount + 1)}
-        isFactoryRunning={isFactoryRunning}
+        dispatch={dispatch}
+        isFactoryRunning={state.isFactoryRunning}
       />
     </CookieContainer>
   );
