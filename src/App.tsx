@@ -7,7 +7,7 @@ interface CookieProps {
   variant: "chocChip" | "doubleChocChip";
 }
 
-const Cookie = function (props: CookieProps): React.ReactElement {
+const Cookie: React.FC<CookieProps> = function (props) {
   let alt, src: string;
 
   switch (props.variant) {
@@ -24,11 +24,7 @@ const Cookie = function (props: CookieProps): React.ReactElement {
   return <img alt={alt} src={src} />;
 };
 
-interface CookieContainer {
-  children: React.ReactNode;
-}
-
-const CookieContainer = function (props: CookieContainer): React.ReactElement {
+const CookieContainer: React.FC = function (props) {
   return (
     <div className="App">
       <div className="cookie-decor">
