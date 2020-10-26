@@ -3,7 +3,7 @@ import React from "react";
 import chocChipImage from "./chocChip.png";
 import doubleChocChipImage from "./doubleChocChip.png";
 
-export const Cookie = function (props) {
+const Cookie = function (props) {
   const alt =
     props.variant === "chocChip"
       ? "Chocolate chip cookie"
@@ -12,22 +12,22 @@ export const Cookie = function (props) {
   const src =
     props.variant === "chocChip" ? chocChipImage : doubleChocChipImage;
 
-  return React.createElement("img", {
-    alt,
-    src,
-  });
+  return <img alt={alt} src={src} />;
 };
 
 const CookieContainer = function (props) {
-  return React.createElement("div", { className: "App" }, [
-    React.createElement("div", { className: "cookie-decor" }, [
-      React.createElement(Cookie, { variant: "chocChip" }),
-      React.createElement(Cookie, { variant: "doubleChocChip" }),
-    ]),
-    props.children,
-  ]);
+  return (
+    <div className="App">
+      <div className="cookie-decor">
+        <Cookie variant="chocChip" />
+        <Cookie variant="doubleChocChip" />
+      </div>
+
+      {props.children}
+    </div>
+  );
 };
 
 export const App = function () {
-  return React.createElement(CookieContainer, undefined, ["Hello world"]);
+  return <CookieContainer>Hello world</CookieContainer>;
 };
