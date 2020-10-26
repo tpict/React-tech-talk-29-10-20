@@ -35,7 +35,7 @@ export const App = function () {
   function startFactory() {
     setFactoryRunning(true);
     setTimeout(() => {
-      setCookieCount(cookieCount + 100);
+      setCookieCount(cookieCount => cookieCount + 100);
       setFactoryRunning(false);
     }, 3000);
   }
