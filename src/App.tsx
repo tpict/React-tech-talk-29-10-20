@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import chocChipImage from "./chocChip.png";
 import doubleChocChipImage from "./doubleChocChip.png";
@@ -29,5 +29,17 @@ const CookieContainer = function (props) {
 };
 
 export const App = function () {
-  return <CookieContainer>Hello world</CookieContainer>;
+  const [cookieCount, setCookieCount] = useState(0);
+
+  return (
+    <CookieContainer>
+      <div className="cookie-count">You have {cookieCount} cookies</div>
+
+      <div className="cookie-controls">
+        <button onClick={() => setCookieCount(cookieCount + 1)}>
+          Bake cookie
+        </button>
+      </div>
+    </CookieContainer>
+  );
 };
