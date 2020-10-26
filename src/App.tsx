@@ -79,7 +79,10 @@ const CookieControls: React.FC<CookieControls> = function (props) {
   );
 };
 
-function useCookieBakers(bakerCount, setCookieCount) {
+function useCookieBakers(
+  bakerCount: number,
+  setCookieCount: React.Dispatch<React.SetStateAction<number>>,
+): void {
   useEffect(() => {
     const interval = setInterval(
       () => setCookieCount(cookieCount => cookieCount + bakerCount),
@@ -95,7 +98,7 @@ export const App: React.FC = function () {
   const [bakerCount, setBakerCount] = useState(0);
   const [isFactoryRunning, setFactoryRunning] = useState(false);
 
-  function startFactory() {
+  function startFactory(): void {
     setFactoryRunning(true);
     setTimeout(() => {
       setCookieCount(cookieCount => cookieCount + 100);
