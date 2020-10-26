@@ -32,14 +32,3 @@
   flex: 0 0 auto;
   width: 50%;
 }
-
-.cookie-decor {
-  display: flex;
-  max-height: 5rem;
-}
-
-.cookie-decor img {
-  display: block;
-  object-fit: contain;
-  flex: 0 0 auto;
-}

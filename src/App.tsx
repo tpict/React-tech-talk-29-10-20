@@ -30,14 +30,31 @@ const CookieContainer = function (props) {
 
 export const App = function () {
   const [cookieCount, setCookieCount] = useState(0);
+  const [isFactoryRunning, setFactoryRunning] = useState(false);
+
+  function startFactory() {
+    setFactoryRunning(true);
+    setTimeout(() => {
+      setCookieCount(cookieCount + 100);
+      setFactoryRunning(false);
+    }, 3000);
+  }
 
   return (
     <CookieContainer>
       <div className="cookie-count">You have {cookieCount} cookies</div>
 
+      <div className="cookie-count">
+        The factory is {isFactoryRunning ? "" : "not "} running
+      </div>
+
       <div className="cookie-controls">
         <button onClick={() => setCookieCount(cookieCount + 1)}>
           Bake cookie
+        </button>
+
+        <button onClick={startFactory} disabled={isFactoryRunning}>
+          Start factory
         </button>
       </div>
     </CookieContainer>
