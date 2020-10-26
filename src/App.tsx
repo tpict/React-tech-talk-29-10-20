@@ -46,7 +46,7 @@ export const App = function () {
       () => setCookieCount(cookieCount => cookieCount + bakerCount),
       1000,
     );
-  }, []);
+  }, [bakerCount]);
 
   return (
     <CookieContainer>
